@@ -5,15 +5,27 @@
   "private": true,
   "type": "module",
   "main": "electron/main.cjs",
+  "description": "Aplikasi penerimaan peserta didik baru terpadu UPTD SMP Negeri 1 Watopute untuk desktop Windows.",
+  "author": {
+    "name": "UPTD SMP Negeri 1 Watopute",
+    "email": "smp1watopute@gmail.com"
+  },
+  "homepage": "https://smpnegeri1watopute.sch.id",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeli767-netizen/smpnegeri-satuwatopute.git"
+  },
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "rimraf dist release",
+    "clean": "rimraf dist release build/icon.png build/icon.ico",
     "lint": "tsc --noEmit",
+    "icons": "node scripts/prepare-icons.mjs",
     "electron": "electron .",
-    "electron:dev": "npm run build && electron .",
-    "dist": "npm run build && electron-builder --win nsis portable"
+    "electron:dev": "npm run icons && npm run build && electron .",
+    "dist": "npm run icons && npm run build && electron-builder --win portable --x64",
+    "dist:installer": "npm run icons && npm run build && electron-builder --win nsis --x64"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -37,6 +49,7 @@
     "electron-builder": "^24.13.0",
     "esbuild": "^0.25.0",
     "rimraf": "^6.0.1",
+    "sharp": "^0.33.5",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
     "typescript": "^7.0.2"
@@ -46,10 +59,11 @@
     "productName": "SPMB SMP Negeri 1 Watopute",
     "artifactName": "${productName}-${version}-${arch}.${ext}",
     "directories": { "output": "release" },
-    "files": ["dist/**/*", "electron/**/*.cjs", "package.json"],
+    "files": ["dist/**/*", "electron/**/*", "package.json"],
     "asar": true,
     "win": {
-      "target": ["nsis", "portable"]
+      "target": ["portable", "nsis"],
+      "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": false,
@@ -57,8 +71,13 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "SPMB SMP Negeri 1 Watopute"
+      "shortcutName": "SPMB SMP Negeri 1 Watopute",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
     },
-    "portable": { "artifactName": "${productName}-${version}-portable.${ext}" }
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.${ext}",
+      "requestExecutionLevel": "user"
+    }
   }
 }
