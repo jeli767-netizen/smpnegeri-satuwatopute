@@ -1,61 +1,64 @@
 {
-  "name": "react-example",
+  "name": "smpnegeri-satuwatopute",
+  "productName": "SPMB SMP Negeri 1 Watopute",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
-  "main": "electron/main.js",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "rm -rf dist release",
+    "clean": "rimraf dist release",
     "lint": "tsc --noEmit",
     "electron": "electron .",
-    "electron:dev": "cross-env NODE_ENV=development electron .",
-    "dist": "npm run build && electron-builder --win portable"
+    "electron:dev": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win nsis portable"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.1",
     "lucide-react": "^0.546.0",
-    "react": "^19.0.1",
-    "react-dom": "^19.0.1",
     "vite": "^8.3.0",
     "express": "^4.21.2",
     "dotenv": "^17.2.3",
-    "motion": "^12.23.24"
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
-    "cross-env": "^7.0.0",
     "electron": "^31.7.4",
     "electron-builder": "^24.13.0",
     "esbuild": "^0.25.0",
+    "rimraf": "^6.0.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
-    "typescript": "^7.0.2",
-    "@types/express": "^4.17.21"
+    "typescript": "^7.0.2"
   },
   "build": {
-    "appId": "com.smpnegeri.satuwatopute.app",
-    "productName": "SMP Negeri 1 Watopute",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "electron/**/*",
-      "package.json"
-    ],
+    "appId": "id.netizen.smpnegeri.satuwatopute",
+    "productName": "SPMB SMP Negeri 1 Watopute",
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "directories": { "output": "release" },
+    "files": ["dist/**/*", "electron/**/*.cjs", "package.json"],
+    "asar": true,
     "win": {
-      "target": [
-        "portable"
-      ],
-      "artifactName": "${productName}-${version}-portable.${ext}"
-    }
+      "target": ["nsis", "portable"]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SPMB SMP Negeri 1 Watopute"
+    },
+    "portable": { "artifactName": "${productName}-${version}-portable.${ext}" }
   }
 }
