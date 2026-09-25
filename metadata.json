@@ -1,0 +1,8 @@
+{
+  "name": "Remix ExecPulse - Executables \u0026 Script Runner Studio",
+  "description": "Enterprise script and executable orchestration dashboard with drag-and-drop workflows, real-time streaming terminal logs, and encrypted credential vault.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
